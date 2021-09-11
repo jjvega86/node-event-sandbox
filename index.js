@@ -3,13 +3,19 @@
 // We then register event listeners that subscribe to that event and fire callbacks after events trigger
 
 const TicketManager = require("./event-emitters/TicketManager");
+const EmailService = require("./event-emitters/EmailService");
+const DatabaseService = require("./event-emitters/DatabaseService");
 
-let manager = new TicketManager(5);
-console.log(manager.supply);
+const manager = new TicketManager(5);
+const emailService = new EmailService();
+const databaseService = new DatabaseService();
 
 // Must register an event listener before the event is emitted
-manager.on("buy", () => {
+// The parameters passed in on the callback are being sent in from the emitted event on the buy() method in TicketManager
+manager.on("buy", (email, price, timestamp) => {
   console.log("A ticket was purchased!");
+  emailService.send(email);
+  databaseService.save(email, price, timestamp);
 });
 
 manager.buy("jj.vega86@gmail.com", 100);
