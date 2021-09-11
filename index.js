@@ -18,6 +18,10 @@ manager.on("buy", (email, price, timestamp) => {
   databaseService.save(email, price, timestamp);
 });
 
+manager.on("error", (error) => {
+  console.error(`Error: ${error}`);
+});
+
 manager.buy("jj.vega86@gmail.com", 100);
 manager.buy("jj.vega86@gmail.com", 100);
 
