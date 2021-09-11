@@ -1,0 +1,12 @@
+{
+  "name": "event-sandbox",
+  "version": "1.0.0",
+  "description": "Sandbox for testing Node.js event (publish-subscribe pattern)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
