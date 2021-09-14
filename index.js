@@ -10,6 +10,10 @@ const manager = new TicketManager(5);
 const emailService = new EmailService();
 const databaseService = new DatabaseService();
 
+const onBuy = () => {
+  console.log("This will be removed soon.");
+};
+
 // Must register an event listener before the event is emitted
 // The parameters passed in on the callback are being sent in from the emitted event on the buy() method in TicketManager
 manager.on("buy", (email, price, timestamp) => {
@@ -18,16 +22,30 @@ manager.on("buy", (email, price, timestamp) => {
   databaseService.save(email, price, timestamp);
 });
 
+manager.on("buy", onBuy);
+
 manager.on("error", (error) => {
   console.error(`Error: ${error}`);
 });
 
-manager.buy("jj.vega86@gmail.com", 100);
+console.log(
+  `We have ${manager.listenerCount("buy")} listener(s) for the buy event`
+);
+console.log(
+  `We have ${manager.listenerCount("error")} listener(s) for the error event`
+);
+
 manager.buy("jj.vega86@gmail.com", 100);
 
-manager.once("buy", () => {
-  console.log("This only fires once");
-});
+manager.off("buy", onBuy);
+console.log(
+  `We have ${manager.listenerCount("buy")} listener(s) for the buy event`
+);
 
-manager.buy("jj.vega86@gmail.com", 100); // Both event listeners will fire for this event
-manager.buy("jj.vega86@gmail.com", 100); // Now just the first event listener fires
+manager.buy("jj.vega86@gmail.com", 100);
+
+manager.removeAllListeners("buy");
+console.log(
+  `We have ${manager.listenerCount("buy")} listener(s) for the buy event`
+);
+console.log("All tickets purchased");
